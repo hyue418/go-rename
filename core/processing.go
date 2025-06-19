@@ -14,10 +14,10 @@ import (
 var UnknownDateDir = "unknown-date"
 
 var (
-	RenameTypeFileByHash              = "file-by-hash"                     // 根据md5重命名(用于文件去重)
-	RenameTypePhotoByExifDate         = "photo-by-shooting-time"           // 根据照片的拍摄时间重命名，没有拍摄时间的文件移至unknown-date文件夹
-	RenameTypePhotoByExifDatePriority = "photo-by-shooting-time-priority"  // 优先根据照片的拍摄时间重命名，没有拍摄时间的按文件创建时间命名
-	RenameTypePhotoAndVideo           = "photo-and-video-by-shooting-time" // 根据照片和视频的拍摄时间重命名，没有拍摄时间的文件移至unknown-date文件夹
+	RenameTypeFileByHash              = "file-by-hash"                    // 根据md5重命名(用于文件去重)
+	RenameTypePhotoByExifDate         = "photo-by-shooting-time"          // 根据照片的拍摄时间重命名，没有拍摄时间的文件移至unknown-date文件夹
+	RenameTypePhotoByExifDatePriority = "photo-by-shooting-time-priority" // 优先根据照片的拍摄时间重命名，没有拍摄时间的按文件创建时间命名
+	//RenameTypePhotoAndVideo           = "photo-and-video-by-shooting-time" // 根据照片和视频的拍摄时间重命名，没有拍摄时间的文件移至unknown-date文件夹
 )
 
 // GetRenameByDateFileCount 获取需要根据拍摄时间重命名的文件数量
