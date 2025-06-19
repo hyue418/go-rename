@@ -1,9 +1,10 @@
-package core
+package controller
 
 import (
 	"fmt"
 	"github.com/dromara/carbon/v2"
 	"github.com/vbauerster/mpb/v8"
+	"hyue418/go-rename/model"
 	"os"
 	"path/filepath"
 	"strings"
@@ -32,7 +33,7 @@ func GetRenameByDateFileCount(dir string) (int64, error) {
 			return nil
 		}
 		// 只处理文件不处理目录，过滤掉隐藏文件
-		if file.IsDir() || IsHiddenFile(file.Name()) {
+		if file.IsDir() || model.IsHiddenFile(file.Name()) {
 			return nil
 		}
 		fileCount++
@@ -55,10 +56,10 @@ func RenameByDate(dir string, bar *mpb.Bar, isOnlyExifDate bool) error {
 			return nil
 		}
 		// 只处理文件不处理目录，过滤掉隐藏文件
-		if file.IsDir() || IsHiddenFile(file.Name()) {
+		if file.IsDir() || model.IsHiddenFile(file.Name()) {
 			return nil
 		}
-		originalTime, err := GetOriginalTime(path)
+		originalTime, err := model.GetOriginalTime(path)
 		if err != nil {
 			return err
 		}
@@ -84,7 +85,7 @@ func RenameByDate(dir string, bar *mpb.Bar, isOnlyExifDate bool) error {
 				return nil
 			}
 			// 没有EXIF的按文件创建时间命名
-			creationTime, _ := GetFileCreationTime(path)
+			creationTime, _ := model.GetFileCreationTime(path)
 			originalTime = creationTime
 		}
 		newFilePath := filepath.Join(filepath.Dir(path), GetDateFileName(originalTime, file.Name()))
@@ -111,7 +112,7 @@ func GetRenameByHashFileCount(dir string) (int64, error) {
 			return err
 		}
 		// 只处理文件不处理目录，过滤掉隐藏文件
-		if file.IsDir() || IsHiddenFile(file.Name()) {
+		if file.IsDir() || model.IsHiddenFile(file.Name()) {
 			return nil
 		}
 		fileCount++
@@ -130,10 +131,10 @@ func RenameByHash(dir string, bar *mpb.Bar) error {
 			return err
 		}
 		// 只处理文件不处理目录，过滤掉隐藏文件
-		if file.IsDir() || IsHiddenFile(file.Name()) {
+		if file.IsDir() || model.IsHiddenFile(file.Name()) {
 			return nil
 		}
-		newFileName, renameErr := GetNameByFileHash(path, file)
+		newFileName, renameErr := model.GetNameByFileHash(path, file)
 		if renameErr != nil {
 			fmt.Printf("Error renaming %s: %v\n", path, renameErr)
 			return nil
@@ -156,8 +157,8 @@ func renameWithConflictResolution(oldPath, newPath string) (string, error) {
 	}
 	// 检查目标文件是否存在，存在则加后缀
 	if _, err := os.Stat(newPath); !os.IsNotExist(err) {
-		base := strings.TrimSuffix(newPath, GetExt(newPath))
-		ext := GetExt(newPath)
+		base := strings.TrimSuffix(newPath, model.GetExt(newPath))
+		ext := model.GetExt(newPath)
 		counter := 1
 		for {
 			newPath = fmt.Sprintf("%s_%d%s", base, counter, ext)
@@ -179,12 +180,12 @@ func formatDate(time string) string {
 // GetDateFileName 获取带日期的文件名(含后缀)
 func GetDateFileName(date, fileName string) string {
 	prefix := "FILE"
-	if IsImage(fileName) {
+	if model.IsImage(fileName) {
 		prefix = "IMG"
-	} else if IsVideo(fileName) {
+	} else if model.IsVideo(fileName) {
 		prefix = "VID"
 	}
-	return fmt.Sprintf("%s_%s%s", prefix, formatDate(date), GetExt(fileName))
+	return fmt.Sprintf("%s_%s%s", prefix, formatDate(date), model.GetExt(fileName))
 }
 
 // minDateTime 返回时间字符串中的最小值，忽略空字符串

@@ -6,7 +6,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/vbauerster/mpb/v8"
 	"github.com/vbauerster/mpb/v8/decor"
-	"hyue418/go-rename/core"
+	"hyue418/go-rename/controller"
 	"os"
 )
 
@@ -34,8 +34,8 @@ func head() {
 func main() {
 	head()
 	renameTypeMap := map[int]string{
-		1: core.RenameTypeFileByHash,
-		2: core.RenameTypePhotoByExifDate,
+		1: controller.RenameTypeFileByHash,
+		2: controller.RenameTypePhotoByExifDate,
 	}
 
 	var cmd = &cobra.Command{
@@ -85,17 +85,17 @@ func main() {
 	var fileCount int64 = 0
 	color.New(color.FgBlue).Add(color.Bold).Println("正在统计文件数量,请稍后...")
 	switch renameType {
-	case core.RenameTypeFileByHash:
+	case controller.RenameTypeFileByHash:
 		var err error
-		fileCount, err = core.GetRenameByHashFileCount(dir)
+		fileCount, err = controller.GetRenameByHashFileCount(dir)
 		if err != nil {
 			fmt.Println(err)
 		}
-	case core.RenameTypePhotoByExifDate:
+	case controller.RenameTypePhotoByExifDate:
 		fallthrough
-	case core.RenameTypePhotoByExifDatePriority:
+	case controller.RenameTypePhotoByExifDatePriority:
 		var err error
-		fileCount, err = core.GetRenameByDateFileCount(dir)
+		fileCount, err = controller.GetRenameByDateFileCount(dir)
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -115,16 +115,16 @@ func main() {
 	)
 	go func() {
 		switch renameType {
-		case core.RenameTypeFileByHash:
-			if err := core.RenameByHash(dir, bar); err != nil {
+		case controller.RenameTypeFileByHash:
+			if err := controller.RenameByHash(dir, bar); err != nil {
 				fmt.Println(err)
 			}
-		case core.RenameTypePhotoByExifDate:
-			if err := core.RenameByDate(dir, bar, true); err != nil {
+		case controller.RenameTypePhotoByExifDate:
+			if err := controller.RenameByDate(dir, bar, true); err != nil {
 				fmt.Println(err)
 			}
-		case core.RenameTypePhotoByExifDatePriority:
-			if err := core.RenameByDate(dir, bar, false); err != nil {
+		case controller.RenameTypePhotoByExifDatePriority:
+			if err := controller.RenameByDate(dir, bar, false); err != nil {
 				fmt.Println(err)
 			}
 		default:
