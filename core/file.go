@@ -1,4 +1,4 @@
-package model
+package core
 
 import (
 	"bytes"
@@ -10,6 +10,7 @@ import (
 	"github.com/dsoprea/go-exif/v3"
 	"github.com/thoas/go-funk"
 	"github.com/tidwall/gjson"
+	"hyue418/go-rename/common"
 	"io"
 	"os"
 	"os/exec"
@@ -21,7 +22,8 @@ import (
 // IsImage 判断文件是否为图片
 func IsImage(path string) bool {
 	extensions := []string{
-		".jpg", ".jpeg", ".png", ".gif", ".bmp", ".tiff", ".tif", ".webp", ".svg", ".heif", ".heic",
+		".jpg", ".jpeg", ".png", ".gif", ".bmp", ".tiff", ".tif", ".webp", ".svg", ".heif", ".heic", ".avif", ".ico",
+		".cur", ".pcx", ".nef", ".cr2", ".jfif",
 	}
 	return funk.ContainsString(extensions, GetExt(path))
 }
@@ -30,6 +32,11 @@ func IsImage(path string) bool {
 func IsVideo(path string) bool {
 	extensions := []string{
 		".mp4", ".avi", ".mov", ".wmv", ".mkv", ".flv", ".webm", ".mpeg", ".mpg", ".3gp", ".3g2", ".m4v",
+		".ogg", ".ogv", ".rm", ".rmvb", ".asf", ".divx", ".xvid", ".vob", ".m2v", ".m4p", ".mxf", ".mts",
+		".m2ts", ".ts", ".tp", ".trp", ".f4v", ".f4p", ".f4a", ".f4b", ".ogm", ".dv", ".nsv", ".qt", ".rm",
+		".ram", ".swf", ".slp", ".tp", ".trp", ".ts", ".vro", ".divx", ".xvid", ".img", ".vob", ".ifo",
+		".dat", ".pva", ".rec", ".thp", ".tod", ".wtv", ".wtv", ".tp", ".trp", ".tivo", ".vdr", ".m2p",
+		".m1a", ".m1s", ".m2a", ".m2s", ".m2t", ".m2ts", ".mts", ".mod", ".tod", ".wtv",
 	}
 	return funk.ContainsString(extensions, GetExt(path))
 }
@@ -191,6 +198,17 @@ func GetFileHash(filePath string) (string, error) {
 	return hex.EncodeToString(hasher.Sum(nil)), nil
 }
 
+// GetDateFileName 获取带日期的文件名(含后缀名)
+func GetDateFileName(date, fileName string) string {
+	prefix := "FIL"
+	if IsImage(fileName) {
+		prefix = "IMG"
+	} else if IsVideo(fileName) {
+		prefix = "VID"
+	}
+	return fmt.Sprintf("%s_%s%s", prefix, common.FormatDate(date), GetExt(fileName))
+}
+
 // GetFileInfo 获取文件信息
 func GetFileInfo(filePath string) error {
 	// 获取文件信息
@@ -205,4 +223,27 @@ func GetFileInfo(filePath string) error {
 	fmt.Println("最后修改时间:", fileInfo.ModTime().Format(time.RFC1123))
 	fmt.Println("是否为目录:", fileInfo.IsDir())
 	return nil
+}
+
+// RenameWithConflictResolution 封装文件重命名，处理重名情况
+func RenameWithConflictResolution(oldPath, newPath string) (string, error) {
+	// 检查目标文件是否是文件自身
+	if oldPath == newPath {
+		return oldPath, nil
+	}
+	// 检查目标文件是否存在，存在则加后缀
+	if _, err := os.Stat(newPath); !os.IsNotExist(err) {
+		base := strings.TrimSuffix(newPath, GetExt(newPath))
+		ext := GetExt(newPath)
+		counter := 1
+		for {
+			newPath = fmt.Sprintf("%s_%d%s", base, counter, ext)
+			if _, err := os.Stat(newPath); os.IsNotExist(err) {
+				break
+			}
+			counter++
+		}
+	}
+	// 执行重命名
+	return newPath, os.Rename(oldPath, newPath)
 }
