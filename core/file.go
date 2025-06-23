@@ -23,7 +23,7 @@ import (
 func IsImage(path string) bool {
 	extensions := []string{
 		".jpg", ".jpeg", ".png", ".gif", ".bmp", ".tiff", ".tif", ".webp", ".svg", ".heif", ".heic", ".avif", ".ico",
-		".cur", ".pcx", ".nef", ".cr2", ".jfif",
+		".cur", ".pcx", ".nef", ".cr2", ".jfif", ".livp",
 	}
 	return funk.ContainsString(extensions, GetExt(path))
 }
@@ -136,10 +136,10 @@ func GetVideoDate(filename string) (string, error) {
 	if recordedDate != "" {
 		// 解析时间字符串
 		res, err := time.Parse("2006-01-02T15:04:05-0700", recordedDate)
-		if err != nil {
-			return "", err
+		if err == nil {
+			return res.Format("2006-01-02 15:04:05"), nil
 		}
-		return res.Format("2006-01-02 15:04:05"), nil
+		// 解析错误时使用Encoded_Date编码时间
 	}
 	// 编码时间
 	encodedDate := gjson.Get(data, `media.track.#(@type="General").Encoded_Date`).String()
