@@ -19,6 +19,9 @@ func NewRenameVideo(matchFailureHandlerType int) *RenameVideo {
 // CountFiles 统计需要重命名的文件数量
 func (r *RenameVideo) CountFiles(dir string) (int64, error) {
 	var fileCount int64 = 0
+	if !MediainfoCommandExists() {
+		return 0, fmt.Errorf("执行失败:获取视频拍摄时间需要安装mediainfo,请先安装")
+	}
 	// 遍历目录及其子目录
 	err := filepath.Walk(dir, func(path string, file os.FileInfo, err error) error {
 		if err != nil {
@@ -108,4 +111,9 @@ func RenameSingleVideo(path string, file os.FileInfo, matchFailureHandlerType in
 		fmt.Printf("Error renaming %s to %s: %v\n", path, newFilePath, err)
 	}
 	return nil
+}
+
+// MediainfoCommandExists 检查mediainfo命令是否存在
+func MediainfoCommandExists() bool {
+	return CommandExists("mediainfo")
 }

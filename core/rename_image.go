@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"github.com/vbauerster/mpb/v8"
 	"os"
+	"os/exec"
 	"path/filepath"
+	"runtime"
 )
 
 // RenameImage 根据拍摄时间重命名图片文件
@@ -109,4 +111,16 @@ func RenameSingleImage(path string, file os.FileInfo, matchFailureHandlerType in
 		fmt.Printf("Error renaming %s to %s: %v\n", path, newFilePath, err)
 	}
 	return nil
+}
+
+// CommandExists 判断命令是否存在
+func CommandExists(command string) bool {
+	var cmd *exec.Cmd
+	if runtime.GOOS == "windows" {
+		cmd = exec.Command("where", command)
+	} else {
+		cmd = exec.Command("which", command)
+	}
+	err := cmd.Run()
+	return err == nil
 }

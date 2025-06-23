@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"github.com/dromara/carbon/v2"
 	"github.com/fatih/color"
+	"os/exec"
+	"runtime"
 	"time"
 )
 
@@ -58,4 +60,15 @@ func minDateTime(times []string) (string, error) {
 		return minTime.Format("2006-01-02 15:04:05"), nil
 	}
 	return "", nil
+}
+func CommandExists(command string) bool {
+	var cmd *exec.Cmd
+	// 根据操作系统选择合适的命令
+	if runtime.GOOS == "windows" {
+		cmd = exec.Command("where", command)
+	} else {
+		cmd = exec.Command("which", command)
+	}
+	err := cmd.Run()
+	return err == nil
 }
