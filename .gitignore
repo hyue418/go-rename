@@ -2,3 +2,5 @@
 .DS_Store
 .vscode
 debug
+main
+go-rename

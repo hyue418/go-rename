@@ -7,17 +7,17 @@ import (
 	"path/filepath"
 )
 
-// RenameImageAndVideo 根据拍摄时间重命名视频文件
-type RenameVideo struct {
+// RenameImage 根据拍摄时间重命名图片文件
+type RenameImage struct {
 	MatchFailureHandlerType int // 匹配失败的处理方式
 }
 
-func NewRenameVideo(matchFailureHandlerType int) *RenameVideo {
-	return &RenameVideo{MatchFailureHandlerType: matchFailureHandlerType}
+func NewRenameImage(matchFailureHandlerType int) *RenameImage {
+	return &RenameImage{MatchFailureHandlerType: matchFailureHandlerType}
 }
 
 // CountFiles 统计需要重命名的文件数量
-func (r *RenameVideo) CountFiles(dir string) (int64, error) {
+func (r *RenameImage) CountFiles(dir string) (int64, error) {
 	var fileCount int64 = 0
 	// 遍历目录及其子目录
 	err := filepath.Walk(dir, func(path string, file os.FileInfo, err error) error {
@@ -27,10 +27,11 @@ func (r *RenameVideo) CountFiles(dir string) (int64, error) {
 		if filepath.Dir(path) == filepath.Join(dir, UnknownDateDir) {
 			return nil
 		}
-		// 只处理视频类型文件，过滤掉隐藏文件
-		if !IsVideo(path) || file.IsDir() || IsHiddenFile(file.Name()) {
+		// 只处理图片类型文件，过滤掉隐藏文件
+		if !IsImage(path) || file.IsDir() || IsHiddenFile(file.Name()) {
 			return nil
 		}
+		fmt.Println(path)
 		fileCount++
 		return nil
 	})
@@ -41,7 +42,7 @@ func (r *RenameVideo) CountFiles(dir string) (int64, error) {
 }
 
 // Rename 重命名
-func (r *RenameVideo) Rename(dir string, bar *mpb.Bar) error {
+func (r *RenameImage) Rename(dir string, bar *mpb.Bar) error {
 	// 遍历目录及其子目录
 	if err := filepath.Walk(dir, func(path string, file os.FileInfo, err error) error {
 		if err != nil {
@@ -50,11 +51,11 @@ func (r *RenameVideo) Rename(dir string, bar *mpb.Bar) error {
 		if filepath.Dir(path) == filepath.Join(dir, UnknownDateDir) {
 			return nil
 		}
-		// 只处理视频类型文件，过滤掉隐藏文件
-		if !IsVideo(path) || file.IsDir() || IsHiddenFile(file.Name()) {
+		// 只处理图片类型文件，过滤掉隐藏文件
+		if !IsImage(path) || file.IsDir() || IsHiddenFile(file.Name()) {
 			return nil
 		}
-		if err = RenameSingleVideo(path, file, r.MatchFailureHandlerType); err != nil {
+		if err = RenameSingleImage(path, file, r.MatchFailureHandlerType); err != nil {
 			return err
 		}
 		bar.Increment()
@@ -65,22 +66,22 @@ func (r *RenameVideo) Rename(dir string, bar *mpb.Bar) error {
 	return nil
 }
 
-// RenameSingleVideo 重命名单个视频
-func RenameSingleVideo(path string, file os.FileInfo, matchFailureHandlerType int) error {
-	if !IsVideo(path) {
+// RenameSingleImage 重命名单张图片
+func RenameSingleImage(path string, file os.FileInfo, matchFailureHandlerType int) error {
+	if !IsImage(path) {
 		return nil
 	}
-	originalTime, err := GetVideoDate(path)
+	originalTime, err := GetOriginalTime(path)
 	if err != nil {
 		return err
 	}
-	// 没有视频拍摄日期
+	// 没有EXIF拍摄日期
 	if originalTime == "" {
 		switch matchFailureHandlerType {
 		case MatchFailureHandlerTypeIgnore:
 			return nil
 		case MatchFailureHandlerTypeMoveToUnknownDateDir:
-			// 没有拍摄日期的视频移至unknown-date文件夹
+			// 没有EXIF的文件移至unknown-date文件夹
 			targetDir := filepath.Join(filepath.Dir(path), UnknownDateDir)
 			// 检查目标目录是否存在
 			if _, err := os.Stat(targetDir); os.IsNotExist(err) {
@@ -97,7 +98,7 @@ func RenameSingleVideo(path string, file os.FileInfo, matchFailureHandlerType in
 			}
 			return nil
 		case MatchFailureHandlerTypeUseFileCreationTime:
-			// 没有拍摄时间的按文件创建时间命名
+			// 没有EXIF的按文件创建时间命名
 			creationTime, _ := GetFileCreationTime(path)
 			originalTime = creationTime
 		}

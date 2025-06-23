@@ -14,18 +14,18 @@ import (
 const UnknownDateDir = "unknown-date"
 
 const (
-	RenameTypePicture         = "rename-type-picture"           // 重命名图片
-	RenameTypeVideo           = "rename-type-video"             // 重命名视频
-	RenameTypePictureAndVideo = "rename-type-picture-and-video" // 重命名图片+视频
-	RenameTypeFileByHash      = "rename-type-file-by-hash"      // 根据md5重命名(用于文件去重)
+	RenameTypeImage         = "rename-type-image"           // 重命名图片
+	RenameTypeVideo         = "rename-type-video"           // 重命名视频
+	RenameTypeImageAndVideo = "rename-type-image-and-video" // 重命名图片+视频
+	RenameTypeFileByHash    = "rename-type-file-by-hash"    // 根据md5重命名(用于文件去重)
 )
 
 // RenameTypeMap 编号与重命名类型映射
 var RenameTypeMap = map[int]string{
-	1: RenameTypePicture,
-	2: RenameTypeVideo,
-	3: RenameTypePictureAndVideo,
-	4: RenameTypeFileByHash,
+	1:  RenameTypeImage,
+	2:  RenameTypeVideo,
+	3:  RenameTypeImageAndVideo,
+	99: RenameTypeFileByHash,
 }
 
 // 日期获取失败的处理方式
@@ -78,7 +78,7 @@ func Execute() {
 				"1.根据拍摄时间重命名图片文件\n" +
 					"2.根据拍摄时间重命名视频文件\n" +
 					"3.根据拍摄时间重命名图片+视频文件\n" +
-					"4.根据文件md5重命名(用于文件去重)\n" +
+					"99.根据文件md5重命名(用于文件去重)\n" +
 					"\n请输入编号:")
 			_, err = fmt.Scanln(&renameTypeNum)
 			if err != nil {
@@ -121,12 +121,12 @@ func Execute() {
 	switch renameType {
 	case RenameTypeFileByHash:
 		renameStrategy = NewRenameFileByHash()
-	case RenameTypePicture:
-		renameStrategy = NewRenamePhoto(matchFailureHandlerType)
+	case RenameTypeImage:
+		renameStrategy = NewRenameImage(matchFailureHandlerType)
 	case RenameTypeVideo:
 		renameStrategy = NewRenameVideo(matchFailureHandlerType)
-	case RenameTypePictureAndVideo:
-		renameStrategy = NewRenamePhoto(matchFailureHandlerType)
+	case RenameTypeImageAndVideo:
+		renameStrategy = NewRenameImageAndVideo(matchFailureHandlerType)
 	default:
 		return
 	}

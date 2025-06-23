@@ -55,7 +55,7 @@ func GetNameByFileHash(filePath string, info os.FileInfo) (string, error) {
 	return filepath.Join(filepath.Dir(filePath), hash+GetExt(info.Name())), nil
 }
 
-// GetOriginalTime 获取文件原始拍摄时间
+// GetOriginalTime 获取图片原始拍摄时间
 func GetOriginalTime(filePath string) (string, error) {
 	dateTimeOriginal, _, _, err := GetExifTime(filePath)
 	if err != nil {
