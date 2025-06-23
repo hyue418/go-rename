@@ -1,7 +1,6 @@
 package core
 
 import (
-	"fmt"
 	"github.com/vbauerster/mpb/v8"
 	"os"
 	"path/filepath"
@@ -19,8 +18,8 @@ func NewRenameImageAndVideo(matchFailureHandlerType int) *RenameImageAndVideo {
 // CountFiles 统计需要重命名的文件数量
 func (r *RenameImageAndVideo) CountFiles(dir string) (int64, error) {
 	var fileCount int64 = 0
-	if !MediainfoCommandExists() {
-		return 0, fmt.Errorf("执行失败:获取视频拍摄时间需要安装mediainfo,请先安装")
+	if err := CheckMediainfoCommandExists(); err != nil {
+		return 0, err
 	}
 	// 遍历目录及其子目录
 	err := filepath.Walk(dir, func(path string, file os.FileInfo, err error) error {

@@ -33,7 +33,6 @@ func (r *RenameImage) CountFiles(dir string) (int64, error) {
 		if !IsImage(path) || file.IsDir() || IsHiddenFile(file.Name()) {
 			return nil
 		}
-		fmt.Println(path)
 		fileCount++
 		return nil
 	})
@@ -75,7 +74,7 @@ func RenameSingleImage(path string, file os.FileInfo, matchFailureHandlerType in
 	}
 	originalTime, err := GetOriginalTime(path)
 	if err != nil {
-		return err
+		return fmt.Errorf("重命名%s文件时错误:%v\n", path, err)
 	}
 	// 没有EXIF拍摄日期
 	if originalTime == "" {
