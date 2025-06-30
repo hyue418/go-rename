@@ -6,6 +6,7 @@ require (
 	github.com/djherbis/times v1.6.0
 	github.com/dromara/carbon/v2 v2.6.7
 	github.com/dsoprea/go-exif/v3 v3.0.1
+	github.com/elliotchance/orderedmap/v3 v3.1.0
 	github.com/fatih/color v1.18.0
 	github.com/spf13/cobra v1.9.1
 	github.com/thoas/go-funk v0.9.3

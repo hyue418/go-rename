@@ -25,6 +25,8 @@ github.com/dsoprea/go-logging
 # github.com/dsoprea/go-utility/v2 v2.0.0-20221003172846-a3e1774ef349
 ## explicit; go 1.12
 github.com/dsoprea/go-utility/v2/filesystem
+# github.com/elliotchance/orderedmap/v3 v3.1.0
+## explicit; go 1.23.0
 # github.com/fatih/color v1.18.0
 ## explicit; go 1.17
 github.com/fatih/color
