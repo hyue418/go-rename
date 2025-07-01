@@ -22,7 +22,7 @@ func NewRenameImage(matchFailureHandlerType int) *RenameImage {
 func (r *RenameImage) CountFiles(dir string) (int64, error) {
 	var fileCount int64 = 0
 	// 遍历目录及其子目录
-	err := filepath.Walk(dir, func(path string, file os.FileInfo, err error) error {
+	if err := filepath.Walk(dir, func(path string, file os.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}
@@ -35,8 +35,7 @@ func (r *RenameImage) CountFiles(dir string) (int64, error) {
 		}
 		fileCount++
 		return nil
-	})
-	if err != nil {
+	}); err != nil {
 		return 0, err
 	}
 	return fileCount, nil
@@ -45,7 +44,7 @@ func (r *RenameImage) CountFiles(dir string) (int64, error) {
 // Rename 重命名
 func (r *RenameImage) Rename(dir string, bar *mpb.Bar) error {
 	// 遍历目录及其子目录
-	if err := filepath.Walk(dir, func(path string, file os.FileInfo, err error) error {
+	return filepath.Walk(dir, func(path string, file os.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}
@@ -61,10 +60,7 @@ func (r *RenameImage) Rename(dir string, bar *mpb.Bar) error {
 		}
 		bar.Increment()
 		return nil
-	}); err != nil {
-		return err
-	}
-	return nil
+	})
 }
 
 // RenameSingleImage 重命名单张图片

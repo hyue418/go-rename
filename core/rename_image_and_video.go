@@ -22,7 +22,7 @@ func (r *RenameImageAndVideo) CountFiles(dir string) (int64, error) {
 		return 0, err
 	}
 	// 遍历目录及其子目录
-	err := filepath.Walk(dir, func(path string, file os.FileInfo, err error) error {
+	if err := filepath.Walk(dir, func(path string, file os.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}
@@ -35,8 +35,7 @@ func (r *RenameImageAndVideo) CountFiles(dir string) (int64, error) {
 		}
 		fileCount++
 		return nil
-	})
-	if err != nil {
+	}); err != nil {
 		return 0, err
 	}
 	return fileCount, nil

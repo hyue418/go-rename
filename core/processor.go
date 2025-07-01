@@ -75,17 +75,17 @@ func Execute() {
 			var inputPassed bool
 			var err error
 			for !inputPassed {
-				fmt.Print("请输入要处理的目录路径：")
+				fmt.Print("请输入要处理的目录路径: ")
 				_, err = fmt.Scanln(&dir)
 				if err != nil || dir == "" {
-					common.PrintError("输入错误：请输入正确的目录路径")
+					common.PrintError("输入错误,请输入正确的目录路径")
 					continue
 				}
 				if info, err := os.Stat(dir); os.IsNotExist(err) {
-					common.PrintError("输入错误：目录不存在")
+					common.PrintError("输入错误,目录不存在")
 					continue
 				} else if !info.IsDir() {
-					common.PrintError("输入错误：请输入正确的目录路径")
+					common.PrintError("输入错误,请输入正确的目录路径")
 					continue
 				}
 				inputPassed = true
@@ -103,12 +103,12 @@ func Execute() {
 				fmt.Print("请输入编号:")
 				_, err = fmt.Scanln(&renameTypeNum)
 				if err != nil {
-					common.PrintError("输入错误：请输入正确的编号")
+					common.PrintError("输入错误,请输入正确的编号")
 					continue
 				}
 				renameType = RenameTypeNumberMap[renameTypeNum]
 				if renameType == "" {
-					common.PrintError("输入错误：请输入正确的编号")
+					common.PrintError("输入错误,请输入正确的编号")
 					continue
 				}
 				inputPassed = true
@@ -127,12 +127,12 @@ func Execute() {
 					fmt.Print("请输入编号:")
 					_, err = fmt.Scanln(&matchFailureHandlerTypeNum)
 					if err != nil {
-						common.PrintError("输入错误：请输入正确的编号")
+						common.PrintError("输入错误,请输入正确的编号")
 						continue
 					}
 					matchFailureHandlerType = MatchFailureHandlerTypeMap[matchFailureHandlerTypeNum]
 					if matchFailureHandlerType == 0 {
-						common.PrintError("输入错误：请输入正确的编号")
+						common.PrintError("输入错误,请输入正确的编号")
 						continue
 					}
 					inputPassed = true
@@ -140,9 +140,9 @@ func Execute() {
 			}
 			common.PrintDividingLine()
 			color.New(color.FgBlue).Add(color.Bold).Println("【操作确认】")
-			color.New().Add(color.Bold).Printf("处理的目录路径：")
+			color.New().Add(color.Bold).Printf("处理的目录路径: ")
 			color.New().Add(color.Bold).Add(color.Underline).Printf("%s\n", dir)
-			color.New().Add(color.Bold).Printf("处理方式：")
+			color.New().Add(color.Bold).Printf("处理方式: ")
 			color.New().Add(color.Bold).Add(color.Underline).Printf("%s\n", RenameTypeTextMap[renameType])
 			switch renameType {
 			case RenameTypeImage:
@@ -156,10 +156,10 @@ func Execute() {
 			confirmType := 2
 			var confirmText string
 			for confirmType == 2 {
-				fmt.Print("确认处理吗？请输入Y/N\n")
+				fmt.Print("确认处理吗？y是,n否 请输入y/n\n")
 				_, err = fmt.Scanln(&confirmText)
 				if err != nil {
-					common.PrintError("输入错误，请输入Y/N")
+					common.PrintError("输入错误，请输入y/n")
 					continue
 				}
 				if confirmText == "Y" || confirmText == "y" {
@@ -168,7 +168,7 @@ func Execute() {
 					common.PrintError("结束运行")
 					os.Exit(1)
 				} else {
-					common.PrintError("输入错误：请输入Y/N")
+					common.PrintError("输入错误,请输入y/n")
 					continue
 				}
 			}
