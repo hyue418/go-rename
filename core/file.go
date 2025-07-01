@@ -22,9 +22,9 @@ import (
 // IsImage 判断文件是否为图片
 func IsImage(path string) bool {
 	extensions := []string{
-		".rw2", ".png", ".heic", ".cur", ".crw", ".jpeg", ".heif", ".avif", ".ico", ".orf", ".psd", ".bmp", ".svg",
-		".jpg", ".pcx", ".dng", ".tiff", ".gif", ".tif", ".arw", ".sr2", ".raf", ".livp", ".nef", ".cr2", ".jfif",
-		".raw", ".webp",
+		".RW2", ".PNG", ".HEIC", ".CUR", ".CRW", ".JPEG", ".HEIF", ".AVIF", ".ICO", ".ORF", ".PSD", ".BMP", ".SVG",
+		".JPG", ".PCX", ".DNG", ".TIFF", ".GIF", ".TIF", ".ARW", ".SR2", ".RAF", ".LIVP", ".NEF", ".CR2", ".JFIF",
+		".RAW", ".WEBP",
 	}
 	return funk.ContainsString(extensions, GetExt(path))
 }
@@ -32,18 +32,18 @@ func IsImage(path string) bool {
 // IsVideo 判断文件是否为视频
 func IsVideo(path string) bool {
 	extensions := []string{
-		".m2t", ".m2v", ".m4p", ".vdr", ".vob", ".f4v", ".m4v", ".ogv", ".xvid", ".f4b", ".img", ".wmv", ".rm", ".m2p",
-		".dv", ".ifo", ".thp", ".m2a", ".flv", ".webm", ".ogg", ".ogm", ".mpg", ".rmvb", ".tp", ".qt", ".dat", ".wtv",
-		".m2s", ".3gp", ".divx", ".m2ts", ".asf", ".ts", ".mov", ".rec", ".f4p", ".tod", ".m1s", ".mkv", ".3g2", ".mxf",
-		".mts", ".f4a", ".ram", ".m1a", ".mod", ".nsv", ".trp", ".avi", ".swf", ".vro", ".pva", ".tivo", ".mp4", ".mpeg",
-		".slp",
+		".M2T", ".M2V", ".M4P", ".VDR", ".VOB", ".F4V", ".M4V", ".OGV", ".XVID", ".F4B", ".IMG", ".WMV", ".RM", ".M2P",
+		".DV", ".IFO", ".THP", ".M2A", ".FLV", ".WEBM", ".OGG", ".OGM", ".MPG", ".RMVB", ".TP", ".QT", ".DAT", ".WTV",
+		".M2S", ".3GP", ".DIVX", ".M2TS", ".ASF", ".TS", ".MOV", ".REC", ".F4P", ".TOD", ".M1S", ".MKV", ".3G2", ".MXF",
+		".MTS", ".F4A", ".RAM", ".M1A", ".MOD", ".NSV", ".TRP", ".AVI", ".SWF", ".VRO", ".PVA", ".TIVO", ".MP4", ".MPEG",
+		".SLP",
 	}
 	return funk.ContainsString(extensions, GetExt(path))
 }
 
 // GetExt 获取文件扩展名
 func GetExt(path string) string {
-	return strings.ToLower(filepath.Ext(path))
+	return strings.ToUpper(filepath.Ext(path))
 }
 
 // GetNameByFileHash 以文件md5作为文件名
