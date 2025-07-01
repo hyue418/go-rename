@@ -10,6 +10,7 @@ import (
 	"hyue418/go-rename/common"
 	"os"
 	"sort"
+	"sync"
 )
 
 // UnknownDateDir 未知拍摄日期文件夹
@@ -209,12 +210,16 @@ func Execute() {
 		),
 		mpb.AppendDecorators(decor.Percentage()),
 	)
+	wg := sync.WaitGroup{}
 	go func() {
+		wg.Add(1)
 		if err = renameStrategy.Rename(dir, bar); err != nil {
 			common.PrintError(err.Error())
 			os.Exit(1)
 		}
 	}()
+	// 保证文件遍历完整
+	wg.Wait()
 	p.Wait()
 	color.New(color.FgGreen).Add(color.Bold).Println("\n=======================处理完毕=======================")
 }
