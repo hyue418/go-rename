@@ -18,8 +18,8 @@ const UnknownDateDir = "unknown-date"
 const (
 	RenameTypeImage         = "rename-type-image"           // 重命名图片
 	RenameTypeVideo         = "rename-type-video"           // 重命名视频
-	RenameTypeImageAndVideo = "rename-type-image-and-video" // 重命名图片+视频
-	RenameTypeFileByHash    = "rename-type-file-by-hash"    // 根据md5重命名(用于文件去重)
+	RenameTypeImageAndVideo = "rename-type-image-and-video" // 重命名图片/视频
+	RenameTypeFileByHash    = "rename-type-file-by-hash"    // 根据md5重命名照片/视频文件(用于文件去重)
 )
 
 // RenameTypeNumberMap 编号与重命名类型映射
@@ -34,8 +34,8 @@ var RenameTypeNumberMap = map[int]string{
 var RenameTypeTextMap = map[string]string{
 	RenameTypeImage:         "根据拍摄时间重命名图片文件",
 	RenameTypeVideo:         "根据拍摄时间重命名视频文件",
-	RenameTypeImageAndVideo: "根据拍摄时间重命名图片+视频文件",
-	RenameTypeFileByHash:    "根据文件md5重命名(用于文件去重)",
+	RenameTypeImageAndVideo: "根据拍摄时间重命名图片/视频文件",
+	RenameTypeFileByHash:    "根据md5重命名照片/视频文件(用于文件去重)",
 }
 
 // 日期获取失败的处理方式
@@ -140,23 +140,23 @@ func Execute() {
 			}
 			common.PrintDividingLine()
 			color.New(color.FgBlue).Add(color.Bold).Println("【操作确认】")
-			color.New().Add(color.Bold).Printf("处理的目录路径: ")
-			color.New().Add(color.Bold).Add(color.Underline).Printf("%s\n", dir)
-			color.New().Add(color.Bold).Printf("处理方式: ")
-			color.New().Add(color.Bold).Add(color.Underline).Printf("%s\n", RenameTypeTextMap[renameType])
+			color.New().Add(color.FgRed).Printf("处理的目录路径: ")
+			color.New().Add(color.FgRed).Add(color.Underline).Printf("%s\n", dir)
+			color.New().Add(color.FgRed).Printf("处理方式: ")
+			color.New().Add(color.FgRed).Add(color.Underline).Printf("%s", RenameTypeTextMap[renameType])
 			switch renameType {
 			case RenameTypeImage:
-				color.New().Add(color.Bold).Printf("该目录下(包含子目录)所有符合条件的图片文件将重命名为[IMG_20250606_121601.xxx]的格式")
+				color.New().Add(color.FgRed).Printf("\n该目录下(包含子目录)所有符合条件的图片文件将重命名为[IMG_20250606_121601.xxx]的格式")
 			case RenameTypeVideo:
-				color.New().Add(color.Bold).Printf("该目录下(包含子目录)所有符合条件的视频文件将重命名为[VID_20250606_121601.xxx]的格式")
+				color.New().Add(color.FgRed).Printf("\n该目录下(包含子目录)所有符合条件的视频文件将重命名为[VID_20250606_121601.xxx]的格式")
 			case RenameTypeImageAndVideo:
-				color.New().Add(color.Bold).Printf("该目录下(包含子目录)所有符合条件的图片文件和视频文件将重命名为[IMG_20250606_121601.xxx]和[VID_20250606_121601.xxx]的格式")
+				color.New().Add(color.FgRed).Printf("\n该目录下(包含子目录)所有符合条件的图片文件和视频文件将重命名为[IMG_20250606_121601.xxx]和[VID_20250606_121601.xxx]的格式")
 			}
-			fmt.Print("\n")
+			fmt.Print("\n\n")
 			confirmType := 2
 			var confirmText string
 			for confirmType == 2 {
-				fmt.Print("确认处理吗？y是,n否 请输入y/n\n")
+				fmt.Print("确认处理吗? y是n否\n请输入y/n: ")
 				_, err = fmt.Scanln(&confirmText)
 				if err != nil {
 					common.PrintError("输入错误，请输入y/n")
@@ -182,14 +182,14 @@ func Execute() {
 	color.New(color.FgBlue).Add(color.Bold).Println("正在统计文件数量,请稍后...")
 	var renameStrategy RenameStrategy
 	switch renameType {
-	case RenameTypeFileByHash:
-		renameStrategy = NewRenameFileByHash()
 	case RenameTypeImage:
 		renameStrategy = NewRenameImage(matchFailureHandlerType)
 	case RenameTypeVideo:
 		renameStrategy = NewRenameVideo(matchFailureHandlerType)
 	case RenameTypeImageAndVideo:
 		renameStrategy = NewRenameImageAndVideo(matchFailureHandlerType)
+	case RenameTypeFileByHash:
+		renameStrategy = NewRenameFileByHash()
 	default:
 		return
 	}
@@ -216,5 +216,5 @@ func Execute() {
 		}
 	}()
 	p.Wait()
-	color.New(color.FgGreen).Add(color.Bold).Println("\n=======================处理完成=======================")
+	color.New(color.FgGreen).Add(color.Bold).Println("\n=======================处理完毕=======================")
 }

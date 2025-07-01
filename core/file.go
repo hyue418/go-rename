@@ -22,8 +22,9 @@ import (
 // IsImage 判断文件是否为图片
 func IsImage(path string) bool {
 	extensions := []string{
-		".jpg", ".jpeg", ".png", ".gif", ".bmp", ".tiff", ".tif", ".webp", ".svg", ".heif", ".heic", ".avif", ".ico",
-		".cur", ".pcx", ".nef", ".cr2", ".jfif", ".livp",
+		".rw2", ".png", ".heic", ".cur", ".crw", ".jpeg", ".heif", ".avif", ".ico", ".orf", ".psd", ".bmp", ".svg",
+		".jpg", ".pcx", "dng", ".tiff", ".gif", ".tif", ".arw", ".sr2", ".raf", ".livp", ".nef", ".cr2", ".jfif",
+		".raw", ".webp",
 	}
 	return funk.ContainsString(extensions, GetExt(path))
 }
@@ -31,12 +32,11 @@ func IsImage(path string) bool {
 // IsVideo 判断文件是否为视频
 func IsVideo(path string) bool {
 	extensions := []string{
-		".mp4", ".avi", ".mov", ".wmv", ".mkv", ".flv", ".webm", ".mpeg", ".mpg", ".3gp", ".3g2", ".m4v",
-		".ogg", ".ogv", ".rm", ".rmvb", ".asf", ".divx", ".xvid", ".vob", ".m2v", ".m4p", ".mxf", ".mts",
-		".m2ts", ".ts", ".tp", ".trp", ".f4v", ".f4p", ".f4a", ".f4b", ".ogm", ".dv", ".nsv", ".qt", ".rm",
-		".ram", ".swf", ".slp", ".tp", ".trp", ".ts", ".vro", ".divx", ".xvid", ".img", ".vob", ".ifo",
-		".dat", ".pva", ".rec", ".thp", ".tod", ".wtv", ".wtv", ".tp", ".trp", ".tivo", ".vdr", ".m2p",
-		".m1a", ".m1s", ".m2a", ".m2s", ".m2t", ".m2ts", ".mts", ".mod", ".tod", ".wtv",
+		".m2t", ".m2v", ".m4p", ".vdr", ".vob", ".f4v", ".m4v", ".ogv", ".xvid", ".f4b", ".img", ".wmv", ".rm", ".m2p",
+		".dv", ".ifo", ".thp", ".m2a", ".flv", ".webm", ".ogg", ".ogm", ".mpg", ".rmvb", ".tp", ".qt", ".dat", ".wtv",
+		".m2s", ".3gp", ".divx", ".m2ts", ".asf", ".ts", ".mov", ".rec", ".f4p", ".tod", ".m1s", ".mkv", ".3g2", ".mxf",
+		".mts", ".f4a", ".ram", ".m1a", ".mod", ".nsv", ".trp", ".avi", ".swf", ".vro", ".pva", ".tivo", ".mp4", ".mpeg",
+		".slp",
 	}
 	return funk.ContainsString(extensions, GetExt(path))
 }

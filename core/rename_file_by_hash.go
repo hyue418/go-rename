@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 )
 
-// RenameFileByHash 根据文件hash重命名文件
+// RenameFileByHash 根据文件hash重命名图片/视频文件
 type RenameFileByHash struct {
 }
 
@@ -23,8 +23,8 @@ func (r *RenameFileByHash) CountFiles(dir string) (int64, error) {
 		if err != nil {
 			return err
 		}
-		// 只处理文件不处理目录，过滤掉隐藏文件
-		if file.IsDir() || IsHiddenFile(file.Name()) {
+		// 只处理图片和视频，过滤掉隐藏文件
+		if (!IsImage(path) && !IsVideo(path)) || file.IsDir() || IsHiddenFile(file.Name()) {
 			return nil
 		}
 		fileCount++
@@ -42,8 +42,8 @@ func (r *RenameFileByHash) Rename(dir string, bar *mpb.Bar) error {
 		if err != nil {
 			return err
 		}
-		// 只处理文件不处理目录，过滤掉隐藏文件
-		if file.IsDir() || IsHiddenFile(file.Name()) {
+		// 只处理图片和视频，过滤掉隐藏文件
+		if (!IsImage(path) && !IsVideo(path)) || file.IsDir() || IsHiddenFile(file.Name()) {
 			return nil
 		}
 		newFileName, renameErr := GetNameByFileHash(path, file)
