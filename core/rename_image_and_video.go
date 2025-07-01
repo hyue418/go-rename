@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 )
 
-// RenameImageAndVideo 根据拍摄时间重命名视频文件
+// RenameImageAndVideo 根据拍摄时间重命名图片/视频文件
 type RenameImageAndVideo struct {
 	MatchFailureHandlerType int // 匹配失败的处理方式
 }

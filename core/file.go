@@ -23,7 +23,7 @@ import (
 func IsImage(path string) bool {
 	extensions := []string{
 		".rw2", ".png", ".heic", ".cur", ".crw", ".jpeg", ".heif", ".avif", ".ico", ".orf", ".psd", ".bmp", ".svg",
-		".jpg", ".pcx", "dng", ".tiff", ".gif", ".tif", ".arw", ".sr2", ".raf", ".livp", ".nef", ".cr2", ".jfif",
+		".jpg", ".pcx", ".dng", ".tiff", ".gif", ".tif", ".arw", ".sr2", ".raf", ".livp", ".nef", ".cr2", ".jfif",
 		".raw", ".webp",
 	}
 	return funk.ContainsString(extensions, GetExt(path))

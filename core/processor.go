@@ -151,7 +151,9 @@ func Execute() {
 			case RenameTypeVideo:
 				color.New().Add(color.FgRed).Printf("\n该目录下(包含子目录)所有符合条件的视频文件将重命名为[VID_20250606_121601.xxx]的格式")
 			case RenameTypeImageAndVideo:
-				color.New().Add(color.FgRed).Printf("\n该目录下(包含子目录)所有符合条件的图片文件和视频文件将重命名为[IMG_20250606_121601.xxx]和[VID_20250606_121601.xxx]的格式")
+				color.New().Add(color.FgRed).Printf("\n该目录下(包含子目录)所有符合条件的图片及视频文件将重命名为[IMG_20250606_121601.xxx]和[VID_20250606_121601.xxx]的格式")
+			case RenameTypeFileByHash:
+				color.New().Add(color.FgRed).Printf("\n该目录下(包含子目录)的图片及视频文件将重命名为md5的格式,md5值相同的将合并为一个文件")
 			}
 			fmt.Print("\n\n")
 			confirmType := 2
@@ -211,15 +213,16 @@ func Execute() {
 		mpb.AppendDecorators(decor.Percentage()),
 	)
 	wg := sync.WaitGroup{}
+	wg.Add(1)
 	go func() {
-		wg.Add(1)
+		defer wg.Done()
 		if err = renameStrategy.Rename(dir, bar); err != nil {
 			common.PrintError(err.Error())
 			os.Exit(1)
 		}
 	}()
-	// 保证文件遍历完整
+	// 确保文件遍历完整
 	wg.Wait()
 	p.Wait()
-	color.New(color.FgGreen).Add(color.Bold).Println("\n=======================处理完毕=======================")
+	color.New(color.FgGreen).Add(color.Bold).Println("\n=======================处理完成=======================")
 }

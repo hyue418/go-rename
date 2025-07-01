@@ -8,7 +8,7 @@ import (
 	"runtime"
 )
 
-// RenameImageAndVideo 根据拍摄时间重命名视频文件
+// RenameVideo 根据拍摄时间重命名视频文件
 type RenameVideo struct {
 	MatchFailureHandlerType int // 匹配失败的处理方式
 }
