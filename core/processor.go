@@ -147,11 +147,11 @@ func Execute() {
 			color.New().Add(color.FgRed).Add(color.Underline).Printf("%s", RenameTypeTextMap[renameType])
 			switch renameType {
 			case RenameTypeImage:
-				color.New().Add(color.FgRed).Printf("\n该目录下(包含子目录)所有符合条件的图片文件将重命名为[IMG_20250606_121601.xxx]的格式")
+				color.New().Add(color.FgRed).Printf("\n该目录下(包含子目录)所有符合条件的图片文件将重命名为[IMG_20250606_121601.XXX]的格式")
 			case RenameTypeVideo:
-				color.New().Add(color.FgRed).Printf("\n该目录下(包含子目录)所有符合条件的视频文件将重命名为[VID_20250606_121601.xxx]的格式")
+				color.New().Add(color.FgRed).Printf("\n该目录下(包含子目录)所有符合条件的视频文件将重命名为[VID_20250606_121601.XXX]的格式")
 			case RenameTypeImageAndVideo:
-				color.New().Add(color.FgRed).Printf("\n该目录下(包含子目录)所有符合条件的图片及视频文件将重命名为[IMG_20250606_121601.xxx]和[VID_20250606_121601.xxx]的格式")
+				color.New().Add(color.FgRed).Printf("\n该目录下(包含子目录)所有符合条件的图片及视频文件将重命名为[IMG_20250606_121601.XXX]和[VID_20250606_121601.XXX]的格式")
 			case RenameTypeFileByHash:
 				color.New().Add(color.FgRed).Printf("\n该目录下(包含子目录)的图片及视频文件将重命名为md5的格式,md5值相同的将合并为一个文件")
 			}
