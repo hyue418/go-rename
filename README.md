@@ -13,7 +13,7 @@
 之类的文件名，不同时期照片放到同一文件夹势必会出现重名问题，不方便浏览和整理。找了一圈网络并没有发现有合适的工具，遂决定开发一个。
 
 ## 演示
-<img src="./doc/images/mac_example.gif">
+<img src="./doc/images/mac_example.gif" width="835">
 
 ## 功能
 * 支持根据`EXIF拍摄时间`重命名图片/视频文件
