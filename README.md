@@ -1,8 +1,9 @@
 # go-rename 照片视频重命名工具
 
-[![GitHub license](https://img.shields.io/github/license/hyue418/go-rename.svg?style=flat-square&color=4285dd&logo=github)](https://github.com/hyue418/go-rename)
 [![GitHub Star](https://img.shields.io/github/stars/hyue418/go-rename.svg?style=flat-square&label=Star&color=4285dd&logo=github)](https://github.com/hyue418/go-rename)
 [![GitHub Fork](https://img.shields.io/github/forks/hyue418/go-rename.svg?style=flat-square&label=Fork&color=4285dd&logo=github)](https://github.com/hyue418/go-rename)
+[![Go Report Card](https://goreportcard.com/badge/github.com/hyue418/go-rename)](https://goreportcard.com/report/github.com/hyue418/go-rename)
+[![GitHub License](https://img.shields.io/github/license/hyue418/go-rename)](https://github.com/hyue418/go-rename/blob/main/LICENSE)
 [![](https://data.jsdelivr.com/v1/package/gh/hyue418/go-rename/badge)](https://www.jsdelivr.com/package/gh/hyue418/go-rename)
 
 ## 前言
