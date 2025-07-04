@@ -36,7 +36,7 @@ var RenameTypeTextMap = map[string]string{
 	RenameTypeImage:         "根据拍摄时间重命名图片文件",
 	RenameTypeVideo:         "根据拍摄时间重命名视频文件",
 	RenameTypeImageAndVideo: "根据拍摄时间重命名图片/视频文件",
-	RenameTypeFileByHash:    "根据md5重命名照片/视频文件(用于文件去重)",
+	RenameTypeFileByHash:    "【文件去重】根据md5重命名照片/视频文件,内容完全相同的文件将只保留一个",
 }
 
 // 日期获取失败的处理方式
