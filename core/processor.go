@@ -2,15 +2,16 @@ package core
 
 import (
 	"fmt"
+	"hyue418/go-rename/common"
+	"os"
+	"sort"
+	"sync"
+
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 	"github.com/thoas/go-funk"
 	"github.com/vbauerster/mpb/v8"
 	"github.com/vbauerster/mpb/v8/decor"
-	"hyue418/go-rename/common"
-	"os"
-	"sort"
-	"sync"
 )
 
 // UnknownDateDir 未知拍摄日期文件夹
@@ -165,12 +166,13 @@ func Execute() {
 					common.PrintError("输入错误，请输入y/n")
 					continue
 				}
-				if confirmText == "Y" || confirmText == "y" {
+				switch confirmText {
+				case "Y", "y":
 					confirmType = 1
-				} else if confirmText == "N" || confirmText == "n" {
+				case "N", "n":
 					common.PrintError("结束运行")
 					os.Exit(1)
-				} else {
+				default:
 					common.PrintError("输入错误,请输入y/n")
 					continue
 				}

@@ -2,10 +2,11 @@ package core
 
 import (
 	"fmt"
-	"github.com/vbauerster/mpb/v8"
 	"os"
 	"path/filepath"
 	"runtime"
+
+	"github.com/vbauerster/mpb/v8"
 )
 
 // RenameVideo 根据拍摄时间重命名视频文件

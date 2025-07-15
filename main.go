@@ -8,5 +8,4 @@ import (
 func main() {
 	common.Head()
 	core.Execute()
-	return
 }

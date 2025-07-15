@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-const Version = "v0.9.0"
+const Version = "v1.0.0"
 const DividingLine = "======================================================"
 
 func Head() {
