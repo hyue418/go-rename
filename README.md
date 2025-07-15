@@ -17,6 +17,19 @@
 
 <img src="./doc/images/mac_example.gif" width="835">
 
+## 支持操作系统
+
+* Windows
+* MacOS
+* Linux
+
+## 支持架构
+
+* X86
+* X86-64
+* arm
+* arm64
+
 ## 功能
 
 * 支持根据`EXIF拍摄时间`重命名图片/视频文件
